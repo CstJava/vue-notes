@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!--
+
+    $root
+    所有的子组件都可以通过这个访问根实例属性方法
+    $parent
+
+
+-->
+<div id="component-root">
+    <component-root></component-root>
+</div>
+
+<script>
+
+    Vue.component('component-root',{
+        template:`
+        <div>
+        <div>{{this.$root.id}}
+        </div>
+        <button v-on:click="this.$root.foo">id++ : {{this.$root.id}}</button>
+        </div>
+
+        `
+    })
+
+    new Vue({
+        el:'#component-root',
+        data:{
+            id:1
+        },
+        computed:{
+            bar:function () {
+                return 15;
+            }
+        },
+        methods:{
+            foo:function () {
+                this.id+=1;
+            }
+        },
+    })
+
+</script>
+
+</body>
+</html>

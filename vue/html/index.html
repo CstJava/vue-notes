@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<div id="app">
+    {{message}}
+</div>
+
+
+<script>
+    var app = new Vue({
+        el:'#app',
+        data:{
+            message:"hello world"
+        }
+    })
+
+</script>
+
+<div id="app2">
+        <span v-bind:title="message">
+        鼠标悬停几秒钟查看此处动态绑定的控制台提示信息
+        </span>
+</div>
+
+<script>
+
+    var app2 = new Vue({
+        el:'#app2',
+        data:{
+            message:'页面加载于'+new Date().toDateString()
+        }
+    })
+</script>
+
+<div id="app3">
+    <p v-if="seen">现在你看到我了</p>
+    <button v-on:click="showapp3">显示消息</button>
+</div>
+
+<script>
+
+    var app3 = new Vue({
+        el:'#app3',
+        data:{
+            seen:false
+        },
+        methods:{
+            showapp3:function () {
+                this.seen=true
+            }
+        }
+    })
+
+
+</script>
+
+<div id="app4">
+    <ol>
+        <li v-for="todo in todos">
+            {{todo.text}}
+        </li>
+    </ol>
+    <button v-on:click="appendapp4">点击我添加</button>
+</div>
+
+<script>
+
+    var app4 = new Vue({
+        el:'#app4',
+        data:{
+            todos:[
+                {text:"java"},
+                {text:'Vue'},
+                {text:'java+Vue'}
+            ]
+        },
+        methods:{
+            appendapp4:function () {
+                this.todos.push({text:"new Text"})
+            }
+        }
+    })
+
+</script>
+
+<div id="app5">
+    <p>{{message}}</p>
+    <button v-on:click="reverseMessage">逆转消息</button>
+</div>
+
+<script>
+    var app5 = new Vue({
+        el:'#app5',
+        data:{
+            message:'hello world!!!'
+        },
+        methods:{
+            reverseMessage:function () {
+                this.message= this.message.split('').reverse().join("")
+            }
+        }
+    })
+</script>
+
+<div id="app6">
+    <p>{{message}}</p>
+    <input type="text" v-model="message">
+</div>
+
+<script>
+    var app6 = new Vue({
+        el:'#app6',
+        data:{
+            message:'hello Vue'
+        }
+    })
+</script>
+
+<script>
+
+    Vue.component('todo-item',{
+        template:'<li>这是一个代办项</li>'
+    })
+</script>
+
+<ol>
+    <!--创建一个todo-item组件的实例-->
+    <todo-item>sss</todo-item>
+</ol>
+</body>
+</html>

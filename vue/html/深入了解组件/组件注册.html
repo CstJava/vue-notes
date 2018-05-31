@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .abc{
+            background-color:cornflowerblue;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--
+    HTML 中的特性名是不区分大小写，所以浏览器会把所有大写字符解释为小写字符
+    当prop中有大写，需更改
+    例如props:{ propC:{}}
+    <my-component prop-c=''></my-component>
+ -->
+
+<!--Prop验证-->
+<div id="my-component">
+    <my-component :prop-c="propC"></my-component>
+</div>
+
+<!--构造函数type-->
+<div id="my-component-auther">
+    <Person :auther="auther"></Person>
+</div>
+
+<!--禁用特性继承-->
+<div id="my-component-inheritAttrs">
+    <my-component-inheritattrs
+            :title="title"
+        class="abc"
+        placeholder="Email"
+    ></my-component-inheritattrs>
+</div>
+<script>
+
+    //Prop验证
+    Vue.component('my-component',{
+        props:{
+            // 基础的类型检查 (`null` 匹配任何类型)
+            propA: Number,
+            // 多个可能的类型
+            propB: [String, Number],
+            // 必填的字符串
+            propC: {
+                type: String,
+                required: true
+            },
+            // 带有默认值的数字
+            propD: {
+                type: Number,
+                default: 100
+            },
+            // 带有默认值的对象
+            propE: {
+                type: Object,
+                // 对象或数组且一定会从一个工厂函数返回默认值
+                default: function () {
+                    return {message: 'hello'}
+                }
+            },
+            // 自定义验证函数
+            propF: {
+                validator: function (value) {
+                    // 这个值必须匹配下列字符串中的一个
+                    return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                }
+            }
+        },
+        template:'<h3>{{propC}}</h3>'
+    })
+
+    //注意那些 prop 会在一个组件实例创建之前进行验证，
+    //所以实例的属性 (如 data、computed 等) 在 default 或 validator 函数中是不可用的
+    new Vue({
+        el:'my-component',
+        data:{
+            propC:'propC-data'
+        }
+    })
+
+
+    //type可以是下列原生构造函数中的一个
+    //String Number Boolean Function Object Array Symbol
+
+    //type还可以是一个自定义的构造函数
+    function Person(name,age) {
+        this.name=name;
+        this.age=age;
+    }
+
+    Vue.component('Person',{
+        props:{
+            auther:{
+                type:Person,
+                required:true
+            }
+        },
+        template:'<div>{{auther.name+auther.age}}</div>'
+    })
+
+    new Vue({
+        el:"#my-component-auther",
+        data:{
+            auther:new Person('张三',18)
+        }
+    })
+
+    //禁用特性继承
+    //如果你不希望组件的根元素继承特性，你可以设置在组件的选项中设置 inheritAttrs: false
+    Vue.component('my-component-inheritattrs',{
+        inheritAttrs:false,
+        props:['title'],
+        template:'<div><h3>{{title}}</h3>' +
+            //使用$attrs,该属性包含了传递给一个组件的特性名和特性值
+        '<input v-bind="$attrs">'+
+            //否则
+        '<input>'+
+        '</div>'
+
+    })
+
+    new Vue({
+        el:'#my-component-inheritAttrs',
+        data:{
+            title:'inheritAttrs'
+        }
+    })
+</script>
+</body>
+</html>

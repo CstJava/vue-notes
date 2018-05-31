@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<!--基础例子-->
+<div id="example">
+    <p>Original message: "{{message}}"</p>
+    <p>Computed reverse message: "{{reverseMessageComputed}}"</p>
+    <p>Methods reverse message: "{{reverseMessageMethods()}}"</p>
+</div>
+
+<!-- setter,getter-->
+<div id="setter">
+    <p>{{message}}</p>
+</div>
+
+<!-- 侦听器 -->
+<div id="watch-example">
+    <p>Ask a yes/no question
+        <input v-model="question">
+    </p>
+    <p>{{answer}}</p>
+</div>
+<script>
+    new Vue({
+        el:'#example',
+        data:{
+            message: 'hello world!'
+        },
+        computed:{
+            //计算属性的getter
+            reverseMessageComputed: function () {
+                //this指向实例
+                return this.message.split('').reverse().join('')
+            }
+        },
+        methods:{
+            reverseMessageMethods:function () {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+
+    var setter = new Vue({
+        el:'#setter',
+        data:{
+            messageData:'messageData'
+        },
+        computed:{
+            message:{
+                get:function () {
+                    return this.messageData
+                },
+                set:function (messageData) {
+                    this.messageData= messageData;
+                }
+            }
+        }
+    })
+
+    var watchExample = new Vue({
+        el:'#watch-example',
+        data:{
+            question:'',
+            answer:"I can't give you an answer until you ask a question"
+        },
+        watch:{
+            //如果question发生改变，这个函数就会运行
+            question:function (newQuestion,oldQuestion) {
+                this.answer = 'Waiting for you to stop typing...';
+                this.debouncedGetAnswer();
+            }
+        },
+        created:function () {
+            //_.debounce` 是一个通过 Lodash 限制操作频率的函数
+            // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+            // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+            // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+            // 请参考：https://lodash.com/docs#debounce
+            this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+        },
+        methods:{
+            getAnswer:function () {
+                if(this.question.indexOf('?')===-1){
+                    this.answer = 'Questions usually contain a question mark. ;-)'
+                    return
+                }
+                this.answer = 'Thinking...';
+                var vm = this;
+                axios.get('https://yesno.wtf/api')
+                    .then(function (response) {
+                        var answer = _.capitalize(response.data.answer);
+                    })
+                    .catch(function (error) {
+                        vm.answer = 'Error! Could not reach the API. ' + error
+                    })
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

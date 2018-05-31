@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<div id="if-else">
+    <div v-if='Math.random()>0.5'>
+        Now you see me
+    </div>
+    <div v-else>
+        Now you don't
+    </div>
+</div>
+
+<div id="else-if">
+    <div v-if="type==='A'">A</div>
+    <div v-else-if="type==='B'">B</div>
+    <div v-else-if="type==='C'">C</div>
+    <div v-else>Not A/B/C</div>
+</div>
+
+<!-- 不使用key,input内容不会改变,仅改变placeholder-->
+<div id="noKey">
+    <div v-if="login ==true">
+        <label>UserName</label>
+        <input type="text" placeholder="Enter your name">
+    </div>
+    <div v-else>
+        <label>email</label>
+        <input type="text" placeholder="Enter your email">
+    </div>
+
+    <button v-on:click="Toggle">Toggle</button>
+</div>
+
+<!-- 使用key,两个元素完全独立,不复用他们-->
+<div id="key">
+    <div v-if="login ==true">
+        <label>UserName</label>
+        <input type="text" placeholder="Enter your name" key="username-input">
+    </div>
+    <div v-else>
+        <label>email</label>
+        <input type="text" placeholder="Enter your email" key="email-input">
+    </div>
+
+    <button v-on:click="Toggle">Toggle</button>
+</div>
+
+<!--
+    一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。
+    因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
+-->
+<div id="show">
+    <p  v-show="show">{{showMessage}}</p>
+    <button v-on:click="showButton">点击显示show内容</button>
+</div>
+<script>
+
+    new Vue({
+        el:"#if-else",
+        data:{
+            seen:true
+        }
+    })
+
+    new Vue({
+        el:'#else-if',
+        data:{
+            type:'D'
+        }
+    })
+
+    new Vue({
+        el:'#noKey',
+        data:{
+            login:true
+        },
+        methods:{
+            Toggle:function () {
+                if(this.login)
+                    this.login=false
+                else
+                    this.login=true
+            }
+        }
+    })
+
+    new Vue({
+        el:'#key',
+        data:{
+            login:true
+        },
+        methods:{
+            Toggle:function () {
+                if(this.login)
+                    this.login=false
+                else
+                    this.login=true
+            }
+        }
+    })
+
+    new Vue({
+        el:'#show',
+        data:{
+            showMessage:"hello world!",
+            show:false
+        },
+        methods:{
+            showButton:function () {
+                this.show=true
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

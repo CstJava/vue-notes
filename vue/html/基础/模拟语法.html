@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!--文本Mustache-->
+<!-- v-once -->
+<span id="v-once" v-once>这个值将不会改变v-once：{{message}}</span>
+
+<!-- 需要v-html指令来输出HTML -->
+<div id="html">
+    <p>Mustache：{{rawHtml}}</p>
+    <p>v-html directives：<span v-html="rawHtml"></span></p>
+
+</div>
+
+<!--javaScript表达式-->
+<div id="javaScript">
+    {{number + 1}}
+    {{ok ? 'yes': 'no'}}
+    {{message.split('').reverse().join('')}}
+
+    <!--每个绑定都只能包含单个表达式，一下不会生效-->
+    <!--这是语句，不会生效-->
+    <!--{{ var a = 1}}-->
+    <!--流程控制也不会生效，请使用三元表达式-->
+    <!--{{if(ok){return message} }}-->
+</div>
+
+<!-- 指令v- -->
+<div id="directives" v-if='seen' v-on:click="hide">点击我就消失</div>
+
+<!--修饰符-->
+<form action="" v-on:submit.prevent="onSubmit"></form>
+
+<!--缩写-->
+<a v-bind:href="url"></a>
+<a :href="url"></a>
+
+<a v-on:click="doSomething"></a>
+<a @click="doSomething"></a>
+<script>
+
+    //文本
+    new Vue({
+        el:"#v-once",
+        data:{
+            message:'500'
+        }
+    })
+
+    //原始html
+    new Vue({
+        el:"#html",
+        data:{
+            rawHtml:"<span style='color: red;'>This should be red</span>"
+        }
+    })
+
+    //vue.js提供了完全的javaScript表达式
+    new Vue({
+        el:'#javaScript',
+        data:{
+            number:10,
+            ok:true,
+            message:'hello world！'
+        }
+    })
+
+    //指令Directives
+    new Vue({
+        el:'#directives',
+        data:{
+            seen:true
+        },
+        methods:{
+            'hide':function () {
+                console.log('console : this.seen = false');
+                this.seen = false
+            }
+        }
+    })
+
+
+</script>
+
+</body>
+</html>

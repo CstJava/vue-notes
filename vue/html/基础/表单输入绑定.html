@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!--文本-->
+<div id="model">
+    <input v-model="message" placeholder="email"></input>
+    <p>text : {{message}}</p>
+</div>
+
+<!--多行文本-->
+<div id="textareaModel">
+    <textarea name="" id="" cols="30" rows="10" v-model="message"></textarea>
+    <p>textarea : {{message}}</p>
+</div>
+
+<!--单个复选框-->
+<div id="checkbox">
+    <input type="checkbox" id="checked" v-model="checked">
+    <label for="checked">{{checked}}</label>
+</div>
+
+<!--多个复选框-->
+<div id="checkboxs">
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="join">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <input type="checkbox" id="julia" value="Julia" v-model="checkedNames">
+    <label for="julia">Julia</label>
+
+    <p>Checked Names : {{checkedNames}}</p>
+</div>
+
+<!--单选按钮-->
+<div id="radio">
+    <input type="radio" id="man" value="男" v-model="sex" >
+    <label for="man">男</label>
+    <input type="radio" id="woman" value="女" v-model="sex" >
+    <label for="woman">女</label>
+
+    <p>性别 : {{sex}}</p>
+</div>
+
+<!--选择框-->
+<div id="select">
+    <select v-model="selected">
+        <option disabled value="">请选择</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+    </select>
+
+    <p>Selected : {{selected}}</p>
+</div>
+
+<!--多选选择框-->
+<div id="selects">
+    <select v-model="selected" multiple>
+        <!--v-bind:value将值绑定到Vue实例的一个动态属性上-->
+        <option v-for="option in options" v-bind:value="option.value">{{option.text}}</option>
+    </select>
+    <p>Selected : {{selected}}</p>
+</div>
+
+<!--复选框-->
+<input type="checkbox" v-model="toggle" true-value="yes" false-value="no">
+
+<!--单选按钮-->
+<input type="radio" v-model="pick" v-bind:value="a">
+<!--
+    当选中时
+    vm.pick === vm.a
+-->
+
+<!--.trim-->
+<!-- 过滤首尾空格 -->
+<input type="text" v-model.trim="name">
+
+<script>
+
+    new Vue({
+        el:'#model',
+        data:{
+            message:''
+        }
+    })
+
+    new Vue({
+        el:'#textareaModel',
+        data:{
+            message:''
+        }
+    })
+
+    new Vue({
+        el:'#checkbox',
+        data:{
+            checked:false
+        }
+    })
+
+    new Vue({
+        el:'#checkboxs',
+        data:{
+            checkedNames:[]
+        }
+    })
+
+    new Vue({
+        el:'#radio',
+        data:{
+            sex:''
+        }
+    })
+
+    new Vue({
+        el:'#select',
+        data:{
+            selected:''
+        }
+    })
+
+    new Vue({
+        el:'#selects',
+        data:{
+            selected:'A',
+            options:[
+                {text:'One',value:'A'},
+                {text:'Two',value:'B'},
+                {text:'Three',value:'C'}
+            ]
+        }
+    })
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<ul id="for">
+    <li v-for="item in items">
+        {{item.message}}
+    </li>
+</ul>
+
+<!-- v-for 还支持一个可选的第二个参数为当前项的索引 -->
+<ul id="for2">
+    <li v-for="(item,index) in items">
+        {{parentMessage}}-{{index}}-{{item.message}}
+    </li>
+</ul>
+
+<!-- 可以用 v-for 通过一个对象的属性来迭代 -->
+<!-- 第一个参数为属性值，第二个为属性名，第三个为索引-->
+<ul id="forObject">
+    <li v-for="(value,key,index) in object">
+        {{index}}-{{key}} : {{value}}
+    </li>
+</ul>
+
+<!-- forKey-->
+<ul id="forKey">
+    <li v-for="item in items":key="item.id">
+        {{item.id}}-{{item.message}}
+    </li>
+</ul>
+
+<!-- v-for on a template 利用v-for 的 template渲染多个元素-->
+<ul id="forTemplate">
+    <template v-for="item in items">
+        <li>{{item.msg}}</li>
+        <li v-bind:style="style">{{item.msg}}</li>
+    </template>
+</ul>
+
+<!-- v-for和v-if -->
+
+<div id="forIf">
+    <ul v-if="items.length">
+        <li v-for="item in items">{{item.message}}</li>
+    </ul>
+    <p v-else>items is empty</p>
+</div>
+
+
+<script>
+
+    new Vue({
+        el:"#for",
+        data:{
+            items:[
+                {message:'foo'},
+                {message:'bar'}
+            ]
+        }
+    })
+
+    new Vue({
+        el:'#for2',
+        data:{
+            parentMessage:'Parent',
+            items:[
+                {message:'foo'},
+                {message:'bar'}
+                ]
+        }
+    })
+
+    new Vue({
+        el:'#forObject',
+        data:{
+            object:{
+                Name: '陈树腾',
+                age: 22,
+                sex: '男'
+            }
+        }
+    })
+
+    new Vue({
+        el:'#forKey',
+        data:{
+            items:[
+                {message:'foo'},
+                {message:'bar'}
+            ]
+        }
+    })
+
+    new Vue({
+        el:'#forTemplate',
+        data:{
+            items:[
+                {msg:'列表1'},
+                {msg:'列表2'},
+                {msg:'列表3'}
+            ],
+            style:{
+                borderBottom:'2px solid blue'
+            }
+        }
+    })
+
+    new Vue({
+        el:'#forIf',
+        data:{
+            items:[
+                // {message:"列表1"},
+                // {message:"列表2"}
+            ]
+        }
+    })
+</script>
+
+</body>
+</html>

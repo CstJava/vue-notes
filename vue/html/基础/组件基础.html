@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!--<div id="components-demo">-->
+    <!--&lt;!&ndash;每个组件独立&ndash;&gt;-->
+    <!--<button-counter></button-counter>-->
+    <!--<button-counter></button-counter>-->
+    <!--<button-counter></button-counter>-->
+    <!--<button-counter></button-counter>-->
+<!--</div>-->
+
+<!--&lt;!&ndash;通过 Prop 向子组件传递数据&ndash;&gt;-->
+<!--<div id="blog-post">-->
+    <!--<blog-post title="My journey with Vue"></blog-post>-->
+    <!--<blog-post title="Blogging with Vue"></blog-post>-->
+    <!--<blog-post title="Why Vue is so fun"></blog-post>-->
+
+    <!--<blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>-->
+<!--</div>-->
+
+<!--通过事件向父级组件发送消息-->
+<div id="blog-post-events">
+    <div :style="{fontSize: postFontSize + 'em'}">
+        <blog-post
+                v-for="post in posts"
+                v-on:enlarge-text="postFontSize+=0.1"
+                v-bind:key="post.id"
+                v-bind:title="post.title"></blog-post>
+    </div>
+</div>
+
+
+<!--动态组件 currentTabComponent:已注册组件的名字-->
+<component v-bind:is="currentTabComponent"></component>
+
+<script>
+
+    // //定义一个名为button-counter的新组件
+    // Vue.component('button-counter',{
+    //     //data必须是一个函数，否者实例间会相互影响
+    //     data:function () {
+    //         return{
+    //             count:0
+    //         }
+    //     },
+    //     template:'<button v-on:click="count++">You click me {{count}} time</button>'
+    // })
+    //
+    // new Vue({
+    //     el:'#components-demo'
+    // })
+    //
+    // //通过 Prop 向子组件传递数据
+    // Vue.component('blog-post',{
+    //     props:['title'],
+    //     template:'<h3>{{title}}</h3>'
+    // })
+    //
+    // new Vue({
+    //     el:'#blog-post',
+    //     data:{
+    //         posts:[
+    //             {id:1,title:'Java'},
+    //             {id:2,title:'JavaScript'},
+    //             {id:3,title:'jQuery'}
+    //             ]
+    //     }
+    // })
+
+    Vue.component('blog-post', {
+        props: ['title'],
+        template:`
+            <div class="blog-post">
+                <h3>{{title }}</h3>
+                <button v-on:click="$emit('enlarge-text')">
+                   Enlarge text
+                </button>
+            </div>  `
+    })
+
+    //通过事件向父级组件发送消息
+    new Vue({
+        el:'#blog-post-events',
+        data:{
+            posts:[
+                {id:1,title:'java'},
+                {id:2,title:'JavaScript'},
+                {id:3,title:'jQuery'}
+            ],
+            postFontSize:1
+        }
+    })
+
+</script>
+</body>
+</html>

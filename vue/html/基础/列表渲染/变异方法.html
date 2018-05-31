@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+<!--
+    push():数组末尾添加
+    pop():数组末尾删除
+    unshift():数组头添加
+    shift():数组头删除
+    splice():根据索引添加删除替换
+    sort():排序
+    reverse():数组反转
+
+-->
+<div id="div">
+    <div v-for="(item,index) in items">
+        {{index}}-{{item.message}}
+    </div>
+    <button v-on:click="pushItem">添加数组末尾元素</button>
+    <button v-on:click="popItem">删除数组末尾元素</button>
+    <button v-on:click="unshiftItem">添加数组头元素</button>
+    <button v-on:click="shiftItem">删除数组头元素</button>
+    <button v-on:click="sortItem">排序数组</button>
+    <button v-on:click="reverseItem">反转数组</button>
+
+</div>
+<script>
+
+    var vue = new Vue({
+        el:'#div',
+        data:{
+            items:[
+                {message:'数据'+Math.round(Math.random()*1000)},
+                {message:'数据'+Math.round(Math.random()*1000)}
+            ]
+        },
+        methods:{
+            pushItem:function () {
+                this.items.push({message: '数据'+Math.round(Math.random()*1000)})
+            },
+            popItem:function () {
+                this.items.pop()
+            },
+            unshiftItem:function () {
+                this.items.unshift({message: '数据'+Math.round(Math.random()*1000)})
+            },
+            shiftItem:function () {
+                this.items.shift()
+            },
+            sortItem:function () {
+                this.items.sort(sortItem)
+                function sortItem(a,b) {
+                    return a-b
+                }
+            },
+            reverseItem:function () {
+                this.items.reverse()
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

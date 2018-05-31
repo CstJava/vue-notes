@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!-- 事件修饰符-->
+<!--
+    .stop 阻止事件传播
+    .prevent 阻止默认事件
+    .once 只触发一次
+-->
+
+<!-- 按键修饰符-->
+<!--
+    .enter
+    .tab
+    .delete
+    ....
+
+    ctrl.exact 有且只有 ctrl 被按下的时候才触发
+-->
+<div id="stop" v-on:click="show">
+    <a href="https://www.baidu.com" v-on:click.stop.prevent="doThis">baidu</a>
+</div>
+
+<input id="keyup" @keyup.ctrl="showSomething">
+
+<!--  有且只有 Ctrl 被按下的时候才触发 -->
+<input type="text" @keyup.ctrl.exact="showSomething">
+<script>
+
+    new Vue({
+        el:'#stop',
+        methods:{
+            doThis:function () {
+                alert('doThis')
+            },
+            //
+            show:function () {
+                alert('show')
+            }
+        }
+    })
+
+    new Vue({
+        el:'#keyup',
+        methods:{
+            showSomething:function () {
+                alert('showSomething')
+            }
+        }
+    })
+</script>
+</body>
+</html>

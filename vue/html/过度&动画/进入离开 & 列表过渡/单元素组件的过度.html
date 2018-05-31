@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="../../../animate.css">
+
+    <style>
+        .fade-enter-active,.fade-leave-active{
+            transition:all 0.5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+        .puff-enter-active{
+            animation: puff 0.5s;
+        }
+
+        .puff-leave-active{
+            animation: puff 0.5s reverse;
+        }
+        
+        @keyframes puff {
+            0%{
+                transform: scale(0);
+            }
+            50%{
+                transform:scale(1.5);
+            }
+            100%{
+                transform:scale(1);
+            }
+        }
+
+        .list-item {
+            display: inline-block;
+            margin-right: 10px;
+            transition : all 1s;
+        }
+        .list-leave-active {
+            position: absolute;
+        }
+        .list-enter, .list-leave-to
+            /* .list-leave-active for below version 2.1.8 */ {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+<body>
+
+<!--
+
+    Vue提供了transition的封装组件
+    添加初始渲染<transition appear>  <transition v-on:before-appear="">
+
+-->
+
+<!-- Css过渡 -->
+<div id="transition">
+    <button v-on:click="show = !show">Fade Toggle</button>
+    <transition name="fade">
+        <p v-if="show">hello</p>
+    </transition>
+</div>
+
+<!-- Css动画-->
+<div id="animation">
+    <button v-on:click="show = !show">Animation Toggle</button>
+    <transition name="puff">
+        <p v-if="show">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris facilisis enim libero, at lacinia diam fermentum id. Pellentesque habitant morbi tristique senectus et netus.</p>
+    </transition>
+</div>
+
+
+<!-- 自定义过渡类名 结合animate.css-->
+<div id="animateCss">
+    <button v-on:click="show=!show">Animate.css Toggle</button>
+    <transition enter-active-class="animated flipInX"  leave-active-class="animated bounceOut">
+
+        <p v-if="show">hello world!</p>
+    </transition>
+</div>
+
+<!-- JavaScript钩子 -->
+<div id="javascript">
+    <button v-on:click="show=!show">JavaScript钩子</button>
+    <transition
+    v-on:before-enter="beforeEnter"
+    v-on:enter="enter"
+    v-on:after-enter="afterEnter"
+    v-on:enter-cancelled="enterCancelled"
+
+    v-on:before-leave="beforeLeave"
+    v-on:leave="leave"
+    v-on:after-leave="afterLeave"
+    v-on:leave-cancelled="leaveCancelled"
+    >
+        <p v-if="show">hello world</p>
+    </transition>
+</div>
+
+<!-- 列表过渡 transition-group-->
+<div id="list-demo" class="demo">
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group name="list" tag="p">
+    <span v-for="item in items" v-bind:key="item" class="list-item">
+      {{ item }}
+    </span>
+    </transition-group>
+</div>
+
+<script>
+
+    new Vue({
+        el:'#transition',
+        data:{
+            show:true
+        }
+    })
+
+    new Vue({
+        el:'#animation',
+        data:{
+            show:true
+        }
+    })
+
+    new Vue({
+        el:'#animateCss',
+        data:{
+            show:true
+        }
+    })
+
+    new Vue({
+        el:'#javascript',
+        methods:{
+            // 进入中
+            beforeEnter: function (el) {
+                alert('beforeEnter')
+            },
+            // 此回调函数是可选项的设置
+            // 与 CSS 结合时使用
+            enter: function (el, done) {
+                // ...
+                done()
+            },
+            afterEnter: function (el) {
+                // ...
+            },
+            enterCancelled: function (el) {
+                // ...
+            },
+
+            // 离开时
+            beforeLeave: function (el) {
+                // ...
+            },
+            // 此回调函数是可选项的设置
+            // 与 CSS 结合时使用
+            leave: function (el, done) {
+                // ...
+                done()
+            },
+            afterLeave: function (el) {
+                // ...
+            },
+            // leaveCancelled 只用于 v-show 中
+            leaveCancelled: function (el) {
+                // ...
+            }
+        },
+        data:{
+            show:true
+        }
+    })
+
+    new Vue({
+        el: '#list-demo',
+        data: {
+            items: [1,2,3,4,5,6,7,8,9],
+            nextNum: 10
+        },
+        methods: {
+            randomIndex: function () {
+                return Math.floor(Math.random() * this.items.length)
+            },
+            add: function () {
+                this.items.splice(this.randomIndex(), 0, this.nextNum++)
+            },
+            remove: function () {
+                this.items.splice(this.randomIndex(), 1)
+            },
+        }
+    })
+</script>
+</body>
+</html>

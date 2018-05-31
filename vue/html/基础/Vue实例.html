@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+<div id="app">
+    <p>{{foo}}</p>
+    <button v-on:click="foo='baz'">Change it</button>
+</div>
+<script>
+    //数据对象
+    var data = {a : 1}
+
+    //该对象被加入到一个Vue实例中
+    var vm = new Vue({
+        data:data
+    })
+
+    console.log('data.a==vm.a  :'+(data.a==vm.a)) //true
+
+    //设置属性也会影响到原始数据
+    vm.a = 2;
+    console.log(data.a); //2
+
+    //反之亦然
+    data.a= 3;
+    console.log(vm.a) //3
+
+    //使用Object.freeze()阻止修改现有的属性,也意味着响应系统无法再追踪
+    var obj = { foo:'bar'}
+
+    Object.freeze(obj);
+
+    new Vue({
+        el:'#app',
+        data:obj
+    })
+
+    console.log('vm.$data ===data :'+(vm.$data ===data)) //true
+    //$watch是一个实例方法
+    vm.$watch('a',function (newValue,oldValue) {
+        //这个回调将在vm.a改变后调用
+    })
+
+    var vue = new Vue({
+        el:'#app',
+        data: {
+            a:1
+        },
+        created:function () {
+            console.log('created事件')
+        },
+        mounted:function () {
+            console.log('mounted事件')
+        },
+        updated:function () {
+            console.log('updated事件')
+        }
+    })
+
+    vue.$el = "";
+    console.log(vue.a)
+</script>
+
+</body>
+</html>

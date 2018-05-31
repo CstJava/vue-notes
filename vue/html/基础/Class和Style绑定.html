@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .newClass{
+            width: 200px;
+            height: 200px;
+            background: deepskyblue;
+        }
+
+        .newClass2{
+            border: 5px solid blueviolet;
+        }
+    </style>
+</head>
+<body>
+
+<!-- 绑定HTML Class-->
+<div id="class" v-bind:class="{newClass:newClass,newClass2:newClass2}"></div>
+
+<div id="class2" v-bind:class="classObject"></div>
+
+<div id="style1" v-bind:style="{color : activeColor,background : activeBackground}">哈哈哈哈</div>
+<div id="style2" v-bind:style="styleObject">滋滋滋滋</div>
+
+<script>
+
+    new Vue({
+        el:"#class",
+        data:{
+            newClass:true,
+            newClass2:true
+        }
+    })
+
+    new Vue({
+        el:'#class2',
+        data:{
+            classObject:{
+                newClass:true,
+                newClass2:true
+            }
+        }
+    })
+
+    new Vue({
+        el:'#style1',
+        data:{
+            activeColor: 'red',
+            activeBackground: 'blue'
+        }
+    })
+
+    new Vue({
+        el:'#style2',
+        data:{
+            styleObject:{
+                color:'yellow',
+                background:'red'
+            }
+        }
+    })
+</script>
+</body>
+</html>

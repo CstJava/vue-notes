@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!--
+
+    异步组件
+    在大型应用中，我们可能需要将应用分割成小一些的代码块，并且只在需要的时候才从服务器加载一个模块。
+    为了简化，Vue 允许你以一个工厂函数的方式定义你的组件，这个工厂函数会异步解析你的组件定义。
+    Vue 只有在这个组件需要被渲染的时候才会被触发，且会把结果缓存起来供未来重渲染
+
+-->
+<div id="async-component">
+    <async-component></async-component>
+</div>
+
+<script>
+
+    Vue.component('async-component',function (resolve,reject) {
+        setTimeout(function () {
+            //向`resolve`回调传递组件定义
+            resolve({
+                template:`<div>I am async!</div>`
+            })
+        },1000)
+    })
+
+    new Vue({
+        el:'#async-component'
+    })
+</script>
+
+</body>
+</html>

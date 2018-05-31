@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+<!--
+    插槽内容
+    如果组件里没有<slot>元素，则任何传入它的内容都被抛弃
+    <slot>必须放在根元素内
+-->
+<div id="slot">
+    <component-slot>
+        <div style="background: cornflowerblue">插槽内容</div>
+    </component-slot>
+</div>
+
+<br>
+<!--具名插槽-->
+<div id="slot-name">
+    <component-slot-name>
+        <template slot="header">
+            <h1>header slot</h1>
+        </template>
+
+        <p>content slot1</p>
+        <p>content slot2</p>
+
+        <template slot="footer">
+            <h1>footer slot</h1>
+        </template>
+    </component-slot-name>
+</div>
+<script>
+
+    Vue.component("component-slot",{
+        template:`
+        <div>下面内容是插槽内容
+        <slot></slot>
+        </div>`
+    })
+    new Vue({
+        el:'#slot'
+    })
+
+    Vue.component("component-slot-name",{
+        template:`
+        <div>
+            <div>下面是header slot<slot name="header"></slot></div>
+            <div>下面是默认slot<slot></slot></div>
+            <div>下面是footer slot<slot name="footer"></slot></div>\
+        </div>
+        `
+    })
+
+    new Vue({
+        el:'#slot-name'
+    })
+</script>
+</body>
+</html>
